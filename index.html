@@ -6,25 +6,93 @@
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link href="/static/css/app.css" rel="stylesheet">
     <style>
-        
+        body {
+            margin: 0;
+        }
+
+        .videoWrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .videoWrapper video {
+            top: 0;
+            left: 0;
+            max-width: 100%;
+            max-height: 75vh;
+            height: calc(55%);
+        }
+
+        main {
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fooder {
+            width: 100%;
+            position: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            bottom: 0px;
+            height: 20px;
+            padding: 20px;
+        }
+
+        .header {
+            width: 100%;
+            height: 3.6em;
+            background-color: #209CEE;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .menu-item {
+            margin: 0 10px;
+            padding: 10px;
+            border: 1.5px solid #3e8e41;
+            border-radius: 5px;
+        }
+
+        .menu-item:hover {
+            background-color: #3e8e41;
+        }
+
+        .menu-link {
+            text-decoration: none;
+        }
+
+        a:link,
+        a:visited,
+        a:hover {
+            color: #000000;
+            text-decoration: none;
+        }
     </style>
 </head>
 
 <body id="body">
-<div class="header">
-    <div class="menu">
-        <a href="/" class="a-link menu-item">m3u8在线播放器</a>
-        <a href="/mpd-player.html" class="a-link menu-item">mpd在线播放器</a>
-        <a href="/iptv-list.html" class="a-link menu-item">IPTV 在线观看</a>
-        <!-- <a href="/cinema.html" class="a-link menu-item">简单私人影视站 DEMO</a> -->
-        <!-- <a href="/download.html" class="a-link menu-item">软件下载</a> -->
-        <a href="/apply-code.html" class="a-link menu-item" >申请激活码</a>
-        <a href="https://v6t.ipip.net/" data-href="https://test-ipv6.com/" class="a-link menu-item" target="_blank">ipV6 检测</a>
-        <a href="/demo.html" class="a-link menu-item">LD OAuth2</a>
+    <div class="header">
+        <div class="menu">
+            <a href="/" class="a-link menu-item">m3u8在线播放器</a>
+            <a href="/mpd-player.html" class="a-link menu-item">mpd在线播放器</a>
+            <a href="/iptv-list.html" class="a-link menu-item">IPTV 在线观看</a>
+            <a href="/apply-code.html" class="a-link menu-item">申请激活码</a>
+            <a href="https://v6t.ipip.net/" data-href="https://test-ipv6.com/" class="a-link menu-item"
+                target="_blank">ipV6 检测</a>
+        </div>
     </div>
-</div>    
     <div>
         <h1 id="videoName" style="text-align: center;">HLS(.m3u8) 在线播放器</h1>
         <div class="container">
@@ -48,35 +116,27 @@
         </div>
     </main>
 
-    <!-- <div id="tip">
+    <div id="tip"
+        style="display:flex; position:fixed;  right: 10px; top: 100px; background-color: #209CEE; padding: 10px; margin: 10px; max-width: 200px; flex-direction: column; z-index: 100;">
         <div style="position: absolute; right: -10px; top: -18px;">
-            <div style="position: relative; " onclick="document.getElementById('tip').style.display='none'"> X </div>
+            <div style="position: relative;" onclick="document.getElementById('tip').style.display='none'"> X </div>
         </div>
-        
-        
         <div id="checkRes"></div>
-
         <div>
             <button onclick="download()">下载本视频</button>
         </div>
-
-    </div> -->
-
-
-    <div class="fooder">
-        <div style="margin: 5px;">QQ群:854313352 <a href="https://qm.qq.com/q/rL2UEWHnj2" target="_blank" style="color: #209CEE; text-decoration:underline;">【进群-下载|交流】</a> </div>
     </div>
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@3.4.21"></script> -->
-    <!-- <script type="module">
-    import { Base64 } from 'https://cdn.jsdelivr.net/npm/js-base64@3.7.7/base64.min.js';
-    </script> -->
+    <div class="fooder">
+        <div style="margin: 5px;"> 飞鸟M3u8下载器 <a href="https://github.com/youwen21/flybird-m3u8downloader/releases"
+                target="_blank" style="color: #209CEE; text-decoration:underline;">下载</a></div>
+        <div style="margin: 5px;">QQ群:854313352 <a href="https://qm.qq.com/q/rL2UEWHnj2" target="_blank"
+                style="color: #209CEE; text-decoration:underline;">【进群-下载|交流】</a> </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.7/base64.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.11/dist/hls.min.js"></script>
 
-    <script>
-
-    </script>
     <script>
         function checkCORS(mediaUrl) {
             fetch('http://127.0.0.1:58123/api/proxy/checkCORS', {
@@ -87,12 +147,10 @@
                 method: "POST",
                 body: JSON.stringify({ media_url: mediaUrl }),
             })
-                // fetch()接收到的response是一个 Stream 对象
-                // response.json()是一个异步操作，取出所有内容，并将其转为 JSON 对象
                 .then(response => response.json())
                 .then(json => {
-                    if (json.code !== 200){
-                        document.getElementById("checkRes").innerText = "检查错误:"+json.msg
+                    if (json.code !== 200) {
+                        document.getElementById("checkRes").innerText = "检查错误:" + json.msg
                         return
                     }
                     if (json.code === 200 && json.data && json.data.length > 10) {
@@ -115,10 +173,6 @@
             return mediaUrl.indexOf(".m3u") !== -1;
         }
 
-        // https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
-        // https://dash.akamaized.net/dash264/TestCases/1a/sony/SNE_DASH_SD_CASE1A_REVISED.mpd
-        // https://samplelib.com/lib/preview/mp4/sample-5s.mp4
-
         function changeSrc() {
             let mediaUrl = document.getElementById("NOwd").value
             if (!mediaUrl) {
@@ -139,8 +193,6 @@
                 method: "POST",
                 body: JSON.stringify({ media_url: mediaUrl }),
             })
-                // fetch()接收到的response是一个 Stream 对象
-                // response.json()是一个异步操作，取出所有内容，并将其转为 JSON 对象
                 .then(response => response.json())
                 .then(json => {
                     console.log(json)
@@ -155,44 +207,31 @@
                 })
                 .catch(err => {
                     document.getElementById("checkRes").innerText = "飞鸟m3u8下载器未启动, 请先启动飞鸟m3u8下载器"
-                    // document.getElementById("tip").style.display="fixed"
                 });
         }
 
         function playMedia(mediaUrl) {
-            // checkCORS(Base64.encodeURI(mediaUrl))
             var video = document.getElementById('video');
-    
+
             if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = mediaUrl;
-                //
-                // If no native HLS support, check if HLS.js is supported
-                //
             } else if (Hls.isSupported()) {
                 var hls = new Hls();
                 hls.loadSource(mediaUrl);
                 hls.attachMedia(video);
             }
-            
+
             video.play()
-                
         }
 
-        // let searchParams = new URL(document.location).searchParams;
-        // https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
-
-        // let searchParams = new URL(document.location).searchParams;
-        // let name = searchParams.get("name");
-        // if (name) {
-        //     document.getElementById('videoName').innerText = Base64.decode(name);
-        // }
-        // let safeMediaUrl = searchParams.get("media_url");
-        // if (safeMediaUrl){
-        //     let  mediaUrl = Base64.decode(safeMediaUrl)
-        //     document.getElementById("NOwd").value = mediaUrl
-        //     checkCORS(mediaUrl)
-        //     playMedia(mediaUrl)
-        // }
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mediaUrl = urlParams.get('mediaUrl');
+            if (mediaUrl) {
+                document.getElementById("NOwd").value = mediaUrl;
+                playMedia(mediaUrl);
+            }
+        }
     </script>
 
 </body>
